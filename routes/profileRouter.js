@@ -6,14 +6,13 @@ const profileRouter = express.Router();
 
 profileRouter.use(bodyParser.json());
 
-
 profileRouter.route('/')
     .get((req, res, next) => {
         Profile.find()
-            .then(profile => {
+            .then(profiles => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(profile);
+                res.json(profiles);
             })
             .catch(err => next(err));
     })
@@ -32,7 +31,7 @@ profileRouter.route('/')
         res.end('PUT operation not supported on /profile');
     })
     .delete((req, res, next) => {
-        Campsite.deleteMany()
+        Profile.deleteMany()
         .then(response => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
@@ -67,7 +66,7 @@ profileRouter.route('/:profileId')
         .catch(err => next(err));
     })
     .delete((req, res, next) => {
-        Profile.findByIdAndUpdate(req.params.profileId)
+        Profile.findByIdAndDelete(req.params.profileId)
         .then(response => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
